@@ -39,6 +39,7 @@ var CourseApi = {
 	deleteCourse: function(id) {
 		console.log('Imagine deleting course with id of ' + id + ' via AJAX call...');
 		_.remove(courses, { id: id});
+		console.log(courses);
 	}
 };
 

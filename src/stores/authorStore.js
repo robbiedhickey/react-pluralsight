@@ -1,22 +1,12 @@
 var Dispatcher = require('../dispatcher');
 var ActionTypes = require('../constants/actionTypes');
-var EventEmitter = require('events').EventEmitter;
+var BaseStore = require('./baseStore');
 var assign = require('object-assign');
 var _ = require('lodash');
-var CHANGE_EVENT = 'change';
 
 var _authors = [];
 
-var AuthorStore = assign({}, EventEmitter.prototype, {
-  addChangeListener: function(callback){
-    this.on(CHANGE_EVENT, callback);
-  },
-  removeChangeListener: function(callback){
-    this.removeListener(CHANGE_EVENT, callback);
-  },
-  emitChange: function(){
-    this.emit(CHANGE_EVENT);
-  },
+var AuthorStore = assign({}, BaseStore, {
   getAllAuthors: function(){
     return _authors;
   },
@@ -46,7 +36,6 @@ Dispatcher.register(function(action){
       _.remove(_authors, function(author){
         return action.id === author.id;
       });
-      console.log('deleting in store');
       AuthorStore.emitChange();
       break;
     default:
